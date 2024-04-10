@@ -14,4 +14,9 @@ class Schedule extends Model
         'semester',
         'content',
     ];
+    // public function course()
+    // {
+    //     return $this->belongsTo(Course::class);
+    // }
+    
 }

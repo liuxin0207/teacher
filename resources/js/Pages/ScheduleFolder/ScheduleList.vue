@@ -56,8 +56,8 @@ export default {
               </tr>
             </thead>
             <tbody>
-              <tr v-for="schedule in response" :key="schedule.id" class="text-center">
-                <td class="w-[100px]">1</td>
+              <tr v-for="(schedule, index) in response" :key="schedule.id" class="text-center">
+                <td class="w-[100px]">{{ index + 1 }}</td>
                 <td>{{ schedule.year }}</td>
                 <td>{{ schedule.semester }}</td>
                 <td class="w-[250px]">

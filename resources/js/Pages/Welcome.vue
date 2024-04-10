@@ -5,22 +5,37 @@ export default {
   props: {
     canLogin: Boolean,
     canRegister: Boolean,
-    response: {
+    yearSemesters: {
       type: Array,
+      default: () => [],
     },
+    
+    course: Object,
+    teacher: Object,
+    schedules: Object,
   },
   data() {
     return {
       bgFull,
+      selectedYearSemester: '', // 存儲所選擇的學年度和學期
+      teacherData: [], // 存儲根據所選擇的學年度和學期獲取的教師資料
     };
   },
   methods: {
-
+    
+  //   getCourseName(courseId) {
+  //   // 在這裡根據 courseId 從 course 物件中獲取相應的課程名稱並返回
+  //   const course = this.course.find(course => course.id === courseId);
+  //   return course ? course.name : '未知課程';
+  // }
   },
 };
 </script>
 
 <template>
+  <!-- {{ schedules }} -->
+  <!-- {{ teacher }} -->
+  <!-- {{ course }} -->
   <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter selection:bg-red-500 selection:text-white" :style="{ backgroundImage: `url(${bgFull})` }">
 
     <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-end text-2xl">
@@ -42,8 +57,9 @@ export default {
       <ApplicationLogo class="w-40 h-40 fill-current text-gray-500 mb-20 mx-auto" />
       <div class="flex items-center gap-x-4 mb-4">
         <label>
-          <select class="w-[400px] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm cursor-pointer text-2xl">
+          <select v-model="selectedYearSemester" @change="filterSchedules" class="w-[400px] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm cursor-pointer text-2xl">
             <option value="" selected hidden>請選擇學期</option>
+            <option v-for="yearSemester in yearSemesters" :value="yearSemester">{{ yearSemester }}</option>
           </select>
         </label>
         <b>學期課表</b>
@@ -56,11 +72,18 @@ export default {
             <th>授課教師</th>
           </tr>
         </thead>
+        <!-- <tbody>
+          <tr v-for="(teacher, index) in teacher" :key="index" class="text-center">
+            <td>{{ index + 1 }}</td>
+            <td>{{ getCourseName(teacher.course_id) }}</td>
+            <td>{{ teacher.name }}</td>
+          </tr>
+        </tbody> -->
         <tbody>
-          <tr class="text-center">
-            <td>1</td>
-            <td>英文</td>
-            <td>Mary</td>
+          <tr v-for="(schedules, index) in schedules" :key="index" class="text-center">
+            <td>{{ index + 1 }}</td>
+            <td>{{ schedules.content }}</td>
+            <td>{{ teacher.name }}</td>
           </tr>
         </tbody>
       </table>
